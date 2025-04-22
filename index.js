@@ -1,6 +1,7 @@
 const DB = require('./config/DB.js');
 const cors = require('cors');
 const express = require('express');
+require('dotenv').config();
 const app = express();
 const port = 3000;
 DB.connectDB();
@@ -15,7 +16,7 @@ app.get('/home', (req, res) => {
 
 
 })
-app.use('/api/product', ProductRoutes);
+app.use('/api/User', UserRoutes);
 
 
 
