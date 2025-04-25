@@ -1,41 +1,38 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: [true, 'First Name is required'],
-    trim: true,
-    minlength: 2
+// Define the product schema
+const productSchema = new mongoose.Schema({
+  name: { 
+    type: String, 
+    required: true, 
+    minlength: 3, 
+    maxlength: 255 
   },
-  lastName: {
-    type: String,
-    required: [true, 'Last Name is required'],
-    trim: true,
-    minlength: 2
+  description: { 
+    type: String, 
+    default: '', 
+    required: false 
   },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    unique: true,
-    lowercase: true,
-    match: [/\S+@\S+\.\S+/, 'Invalid email format']
+  price: { 
+    type: Number, 
+    required: true, 
+    min: 0 
   },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: 6
+  quantity: { 
+    type: Number, 
+    required: true, 
+    min: 0 
   },
-  role: {
-    type: String,
-    enum: ['customer', 'admin'],
-    default: 'customer'
+  image: { 
+    type: String, 
+    default: '', 
+    required: false 
   },
-  isVerified: {
-    type: Boolean,
-    default: false
-  },
-  resetToken: String,
-  resetTokenExpire: Date
+  categoryId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Category', 
+    required: true 
+  }
 }, { timestamps: true });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Product', productSchema);
