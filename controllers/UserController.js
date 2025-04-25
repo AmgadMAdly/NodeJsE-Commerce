@@ -3,16 +3,21 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-
+dotenv = require("dotenv").config();
+key = process.env.JWT_SECRET;
 //register user
 async function registerUser(req, res) {
   try {
+    
     const { firstName, lastName, email, password, role } = req.body;
+    console.log(req.body);
+    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     const newUser = await User.create({
       firstName,
       lastName,
@@ -20,6 +25,8 @@ async function registerUser(req, res) {
       password: hashedPassword,
       role,
     });
+    
+
     const token = jwt.sign(
       { id: newUser._id, role: newUser.role },
       process.env.JWT_SECRET,
