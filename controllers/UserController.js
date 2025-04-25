@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 //register user
 async function registerUser(req, res) {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, email, password, role } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -18,6 +18,7 @@ async function registerUser(req, res) {
       lastName,
       email,
       password: hashedPassword,
+      role,
     });
     const token = jwt.sign(
       { id: newUser._id, role: newUser.role },
@@ -57,6 +58,7 @@ async function loginUser(req, res) {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+    console.log('Generated Token:', token);
     res.status(200).json({
       message: "User logged in successfully",
       token,

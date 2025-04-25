@@ -32,8 +32,11 @@ async function getProductById(req,res,next){
 
 async function createProduct(req,res,next) {
     const {name,price,quantity,categoryId} = req.body;
-    const image = req.file.path;
+    const image = req.file ? req.file.path : null;
 
+    if (!image) {
+        return res.status(400).json({ message: 'Image is required' });
+    }
     const Added = await product.create({name,price,quantity,image,categoryId});
 
     if(Added){

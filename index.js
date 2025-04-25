@@ -5,7 +5,7 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 DB.connectDB();
-const UserRoutes = require('./Routes/UserRoutes.js');
+const UserRoutes = require('./Routes/User.Routes.js');
 const ProductRoutes = require('./Routes/Product.routes.js');
 const authMiddleware = require('./middleware/Auth.Middleware.js');
 const authorizeRoles = require('./middleware/RoleAuth.Middleware.js');
@@ -20,7 +20,7 @@ app.get('/home', (req, res) => {
 
 })
 app.use('/api/User', UserRoutes);
-app.use('/api/Product',ProductRoutes , authMiddleware );
+app.use('/api/Product', authMiddleware,ProductRoutes  );
 
 
 
