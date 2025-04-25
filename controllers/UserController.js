@@ -25,7 +25,7 @@ async function registerUser(req, res) {
       password: hashedPassword,
       role,
     });
-    
+
 
     const token = jwt.sign(
       { id: newUser._id, role: newUser.role },
@@ -99,16 +99,11 @@ async function forgotPassword(req, res) {
     const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
+      }
     });
     const mailOptions = {
       from: process.env.EMAIL_USER,
