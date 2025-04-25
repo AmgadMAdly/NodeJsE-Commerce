@@ -20,7 +20,7 @@ app.get('/home', (req, res) => {
 
 })
 app.use('/api/User', UserRoutes);
-app.use('/api/Product',ProductRoutes , authMiddleware );
+// app.use('/api/Product',ProductRoutes , authMiddleware );
 
 
 
