@@ -25,7 +25,11 @@ app.use('/api/User', UserRoutes);
 app.use('/api/Product', authMiddleware,ProductRoutes  );
 app.use('/api/category', authMiddleware,categoryRoutes  );
 app.use('/api/Order', authMiddleware,orderroutes  );
+// app.use((err, req, res, next) => {
 
+//     const error = new APIError("Iternal Server Error", 500);
+//     res.status(error.status).json(error.message);
+// })
 
 
 

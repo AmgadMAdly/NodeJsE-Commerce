@@ -12,12 +12,16 @@ const {
   forgotPassword,
   changePassword,
 } = require('../controllers/UserController.js');
+const { asyncWarpper } = require('../utils/errHandler.js');
 
+// router.post('/register', asyncWarpper(registerUser));
+// router.post('/login', validateLogin, asyncWarpper(loginUser));
+// router.post('/forgot-password', validateForgotPassword, asyncWarpper(forgotPassword));
+// router.post('/change-password', validateChangePassword, asyncWarpper(changePassword));
+// 
 router.post('/register', registerUser);
 router.post('/login', validateLogin, loginUser);
 router.post('/forgot-password', validateForgotPassword, forgotPassword);
 router.post('/change-password', validateChangePassword, changePassword);
-router.get('/test', (req, res) => {
-  res.send('Test route is working!');
-});
+
 module.exports = router;
