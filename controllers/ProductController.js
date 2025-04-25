@@ -1,6 +1,9 @@
 const product = require("../models/Product");
+const { productValidation } = require('../validation/ProductValidation');
+
 
 async function getAllProducts(req,res,next) {
+    
     const products = await product.find();
     
     if(products){
@@ -13,15 +16,14 @@ async function getAllProducts(req,res,next) {
         // next(Error);
     }
 }
-
 async function getProductById(req,res,next){
     const{id} = req.params;
 
-    const product = await product.findOne({_id:id})
-    if(product){
+    const fetchedProduct = await product.findOne({_id:id})
+    if(fetchedProduct){
         res.status(200).json({
             message: "Product has been fetched",
-            Data: product
+            Data: fetchedProduct
         })
     }else{
         // const Error = new APIError("Couldn't fetching product",400);
@@ -29,23 +31,28 @@ async function getProductById(req,res,next){
     }
 
 }
-
 async function createProduct(req,res,next) {
-    const {name,price,quantity,categoryId} = req.body;
-    const image = req.file.path;
+    const { error } = productValidation.validate(req.body);
 
-    const Added = await product.create({name,price,quantity,image,categoryId});
-
-    if(Added){
-        res.status(201).json({
-            message: "Product has been Added"
-        })
+    if(error){
+        return res.status(400).json({ message: error.details[0].message });
     }else{
-        // const Error = new APIError("Couldn't adding product",400);
-        // next(Error);
+        const {name,description,price,quantity,categoryId} = req.body;
+        const image = req.file.path;
+    
+        const Added = await product.create({name,description,price,quantity,image,categoryId});
+    
+        if(Added){
+            res.status(201).json({
+                message: "Product has been Added"
+            })
+        }else{
+            // const Error = new APIError("Couldn't adding product",400);
+            // next(Error);
+        }
     }
-}
 
+}
 async function updateProduct(req,res,next) {
     const{id} = req.params;
     
@@ -58,7 +65,6 @@ async function updateProduct(req,res,next) {
         // next(Error);
     }
 }
-
 async function deleteProduct(req,res,next) {
     const{id}=req.params;
 

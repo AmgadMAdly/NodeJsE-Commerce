@@ -18,5 +18,16 @@ async function createCategory(req,res,next){
 async function getCategorybyId(req,res,next){
     const{id} = req.params;
 
-    const category = await category
+    const fetchedcategory = await category.findOne({_id:id});
+
+    if(fetchedcategory){
+        res.status(200).json({
+            message: "Catrgory has been fetched",
+            Data: fetchedcategory
+        })
+    }else{
+        // const Error = new APIError("Couldn't fetching product",400);
+        // next(Error);
+    }
 }
+

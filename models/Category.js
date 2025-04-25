@@ -1,19 +1,19 @@
-const Joi = require("joi");
+const mongoose = require('mongoose');
 
-const categorySchema = Joi.object({
-  name: Joi.string()
-    .min(2)
-    .max(50)
-    .required()
-    .messages({
-      "string.base": `"name" must be a string`,
-      "string.empty": `"name" is required`,
-      "string.min": `"name" should be at least 2 characters`,
-      "any.required": `"name" is a required field`,
-    }),
-});
+const categorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Category name is required'],
+      trim: true,
+      unique: true,
+      minlength: [2, 'Category name must be at least 2 characters'],
+      maxlength: [50, 'Category name cannot exceed 50 characters'],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = {
-  categorySchema,
-};
-
+module.exports = mongoose.model('Category', categorySchema);

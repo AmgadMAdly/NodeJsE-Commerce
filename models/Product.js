@@ -1,20 +1,38 @@
-const Joi = require('joi');
 const mongoose = require('mongoose');
 
-const isValidObjectId = (value, helpers) => {
-  if (!mongoose.Types.ObjectId.isValid(value)) {
-    return helpers.message('Invalid categoryId');
+// Define the product schema
+const productSchema = new mongoose.Schema({
+  name: { 
+    type: String, 
+    required: true, 
+    minlength: 3, 
+    maxlength: 255 
+  },
+  description: { 
+    type: String, 
+    default: '', 
+    required: false 
+  },
+  price: { 
+    type: Number, 
+    required: true, 
+    min: 0 
+  },
+  quantity: { 
+    type: Number, 
+    required: true, 
+    min: 0 
+  },
+  image: { 
+    type: String, 
+    default: '', 
+    required: false 
+  },
+  categoryId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Category', 
+    required: true 
   }
-  return value;
-};
+}, { timestamps: true });
 
-const productSchema = Joi.object({
-  name: Joi.string().min(3).max(255).required(),
-  description: Joi.string().allow('', null),
-  price: Joi.number().positive().required(),
-  quantity: Joi.number().integer().min(0).required(),
-  image: Joi.string().uri().optional(), 
-  categoryId: Joi.string().custom(isValidObjectId).required()
-});
-
-module.exports = { productSchema };
+module.exports = mongoose.model('Product', productSchema);
