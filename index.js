@@ -6,6 +6,7 @@ const app = express();
 const port = 3000;
 DB.connectDB();
 const UserRoutes = require('./Routes/UserRoutes.js');
+const ProductRoutes = require('./Routes/Product.routes.js');
 app.use(cors());
 app.use(express.static('public'));
 app.use(express.urlencoded());
@@ -17,7 +18,7 @@ app.get('/home', (req, res) => {
 
 })
 app.use('/api/User', UserRoutes);
-
+app.use('/api/Product',ProductRoutes)
 
 
 
