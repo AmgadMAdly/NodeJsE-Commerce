@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const { ValidateProduct } = require('../validation/ProductValidation');
+const { APIError } = require("../utils/APIError");
 
 
 async function getAllProducts(req,res,next) {
@@ -12,8 +13,8 @@ async function getAllProducts(req,res,next) {
             Data: products
         })
     }else{
-        // const Error = new APIError("Couldn't fetching Product",400);
-        // next(Error);
+        const Error = new APIError("Couldn't fetching Product",400);
+        next(Error);
     }
 }
 async function getProductById(req,res,next){
@@ -26,8 +27,8 @@ async function getProductById(req,res,next){
             Data: fetchedProduct
         })
     }else{
-        // const Error = new APIError("Couldn't fetching product",400);
-        // next(Error);
+        const Error = new APIError("Couldn't fetching product",400);
+        next(Error);
     }
 
 }
@@ -49,8 +50,8 @@ async function createProduct(req,res) {
                 message: "Product has been Added"
             })
         }else{
-            // const Error = new APIError("Couldn't adding product",400);
-            // next(Error);
+            const Error = new APIError("Couldn't adding product",400);
+            next(Error);
         }
     
 

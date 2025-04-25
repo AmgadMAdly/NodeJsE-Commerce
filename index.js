@@ -8,6 +8,7 @@ DB.connectDB();
 const UserRoutes = require('./Routes/User.Routes.js');
 const ProductRoutes = require('./Routes/Product.routes.js');
 const categoryRoutes = require('./routes/Category.routes.js');
+const CartRoutes = require('./routes/Cart.routes.js');
 const authMiddleware = require('./middleware/Auth.Middleware.js');
 const authorizeRoles = require('./middleware/RoleAuth.Middleware.js');
 app.use(cors());
@@ -21,8 +22,9 @@ app.get('/home', (req, res) => {
 
 })
 app.use('/api/User', UserRoutes);
-app.use('/api/Product', authMiddleware,ProductRoutes  );
-app.use('/api/category', authMiddleware,categoryRoutes  );
+app.use('/api/Product', authMiddleware,ProductRoutes);
+app.use('/api/category', authMiddleware,categoryRoutes);
+app.use('/api/Cart', authMiddleware,CartRoutes);
 
 
 
