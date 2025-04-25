@@ -3,22 +3,30 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-
+dotenv = require("dotenv").config();
+key = process.env.JWT_SECRET;
 //register user
 async function registerUser(req, res) {
   try {
-    const { firstName, lastName, email, password } = req.body;
+    
+    const { firstName, lastName, email, password, role } = req.body;
+    console.log(req.body);
+    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
     const newUser = await User.create({
       firstName,
       lastName,
       email,
       password: hashedPassword,
+      role,
     });
+
+
     const token = jwt.sign(
       { id: newUser._id, role: newUser.role },
       process.env.JWT_SECRET,
@@ -57,6 +65,7 @@ async function loginUser(req, res) {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+    console.log('Generated Token:', token);
     res.status(200).json({
       message: "User logged in successfully",
       token,
@@ -90,16 +99,11 @@ async function forgotPassword(req, res) {
     const resetUrl = `http://localhost:3000/reset-password/${resetToken}`;
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
+      service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
+      }
     });
     const mailOptions = {
       from: process.env.EMAIL_USER,

@@ -20,6 +20,9 @@ const registerSchema = Joi.object({
     'string.min': 'Password should be at least 8 characters long',
     'any.required': 'Password is required'
   }),
+  role: Joi.string().valid('customer', 'admin').default('customer').messages({
+    'any.only': 'Role must be either customer or admin'
+  })
 });
 
 // Login schema

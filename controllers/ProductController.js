@@ -1,10 +1,10 @@
-const product = require("../models/Product");
-const { productValidation } = require('../validation/ProductValidation');
+const Product = require("../models/Product");
+const { ValidateProduct } = require('../validation/ProductValidation');
 
 
 async function getAllProducts(req,res,next) {
     
-    const products = await product.find();
+    const products = await Product.find();
     
     if(products){
         res.status(200).json({
@@ -12,14 +12,14 @@ async function getAllProducts(req,res,next) {
             Data: products
         })
     }else{
-        // const Error = new APIError("Couldn't fetching product",400);
+        // const Error = new APIError("Couldn't fetching Product",400);
         // next(Error);
     }
 }
 async function getProductById(req,res,next){
     const{id} = req.params;
 
-    const fetchedProduct = await product.findOne({_id:id})
+    const fetchedProduct = await Product.findOne({_id:id})
     if(fetchedProduct){
         res.status(200).json({
             message: "Product has been fetched",
@@ -31,16 +31,18 @@ async function getProductById(req,res,next){
     }
 
 }
-async function createProduct(req,res,next) {
-    const { error } = productValidation.validate(req.body);
-
-    if(error){
-        return res.status(400).json({ message: error.details[0].message });
-    }else{
+async function createProduct(req,res) {
+    
+    console.log(req.file);
+    if (!req.file) {
+        return res.status(400).json({ message: "Image file is required" });
+    }
+    
         const {name,description,price,quantity,categoryId} = req.body;
+        console.log(req.file);
         const image = req.file.path;
     
-        const Added = await product.create({name,description,price,quantity,image,categoryId});
+        const Added = await Product.create({name,description,price,quantity,image,categoryId});
     
         if(Added){
             res.status(201).json({
@@ -50,13 +52,13 @@ async function createProduct(req,res,next) {
             // const Error = new APIError("Couldn't adding product",400);
             // next(Error);
         }
-    }
+    
 
 }
 async function updateProduct(req,res,next) {
     const{id} = req.params;
     
-    const Edited = await product.updateOne({_id:id},{$set:req.body});
+    const Edited = await Product.updateOne({_id:id},{$set:req.body});
 
     if(Edited.modifiedCount ===1){
         res.status(200).json({message: "Product has been Edited"})
@@ -68,7 +70,7 @@ async function updateProduct(req,res,next) {
 async function deleteProduct(req,res,next) {
     const{id}=req.params;
 
-    const Deleted = await product.deleteOne({_id:id});
+    const Deleted = await Product.deleteOne({_id:id});
     if(Deleted.deletedCount ===1){
         res.status(200).json({message: "Product has been deleted"})
     }else{

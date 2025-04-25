@@ -21,4 +21,16 @@ const productValidation = Joi.object({
   categoryId: Joi.string().custom(isValidObjectId).required()
 });
 
-module.exports = { productValidation };
+// Generic validator middleware
+function pvalidate(schema) {
+  return (req, res, next) => {
+    const { error } = schema.validate(req.body, { abortEarly: false });
+    if (error) {
+      const details = error.details.map(d => d.message);
+      return res.status(400).json({ message: 'Validation error', details });
+    }
+    next();
+  };
+}
+
+module.exports = { ValidateProduct :pvalidate(productValidation) };
