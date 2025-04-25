@@ -64,8 +64,8 @@ async function updateProduct(req,res,next) {
     if(Edited.modifiedCount ===1){
         res.status(200).json({message: "Product has been Edited"})
     }else{
-        // const Error = new APIError("Invalid deleting product",400);
-        // next(Error);
+        const Error = new APIError("Invalid deleting product",400);
+        next(Error);
     }
 }
 async function deleteProduct(req,res,next) {
@@ -75,8 +75,8 @@ async function deleteProduct(req,res,next) {
     if(Deleted.deletedCount ===1){
         res.status(200).json({message: "Product has been deleted"})
     }else{
-        // const Error = new APIError("Invalid deleting product",400);
-        // next(Error);
+        const Error = new APIError("Invalid deleting product",400);
+        next(Error);
     }
 }
 

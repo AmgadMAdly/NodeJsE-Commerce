@@ -9,6 +9,7 @@ const UserRoutes = require('./Routes/User.Routes.js');
 const ProductRoutes = require('./Routes/Product.routes.js');
 const categoryRoutes = require('./routes/Category.routes.js');
 const CartRoutes = require('./routes/Cart.routes.js');
+const orderroutes = require('./routes/Order.Route.js');
 const authMiddleware = require('./middleware/Auth.Middleware.js');
 const authorizeRoles = require('./middleware/RoleAuth.Middleware.js');
 app.use(cors());
@@ -25,7 +26,12 @@ app.use('/api/User', UserRoutes);
 app.use('/api/Product', authMiddleware,ProductRoutes);
 app.use('/api/category', authMiddleware,categoryRoutes);
 app.use('/api/Cart', authMiddleware,CartRoutes);
+app.use('/api/Order', authMiddleware,orderroutes  );
+// app.use((err, req, res, next) => {
 
+//     const error = new APIError("Iternal Server Error", 500);
+//     res.status(error.status).json(error.message);
+// })
 
 
 
