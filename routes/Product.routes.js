@@ -18,10 +18,10 @@ const upload = multer({storage});
 
 const productController = require("../controllers/ProductController");
 
-router.post("/createproduct",productController.createProduct);
+router.post("/createproduct", authorizeRoles(['admin']) ,productController.createProduct );
 router.get("/getproducts",productController.getAllProducts);
 router.get("/getProduct/:id",productController.getProductById);
-router.put("/updateproduct/:id",productController.updateProduct);
-router.delete("/deleteproduct/:id",productController.deleteProduct);
+router.put("/updateproduct/:id", authorizeRoles(['admin']) ,productController.updateProduct);
+router.delete("/deleteproduct/:id", authorizeRoles(['admin']) ,productController.deleteProduct);
 
 module.exports = router;

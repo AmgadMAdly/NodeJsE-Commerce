@@ -5,13 +5,13 @@ const {
   validateLogin,
   validateForgotPassword,
   validateChangePassword,
-} = require('../validation/validation.js');
+} = require('../validation/User.Validation.js');
 const {
   registerUser,
   loginUser,
   forgotPassword,
   changePassword,
-} = require('../controllers/UserController');
+} = require('../controllers/UserController.js');
 
 router.post('/register', validateRegister, registerUser);
 router.post('/login', validateLogin, loginUser);
