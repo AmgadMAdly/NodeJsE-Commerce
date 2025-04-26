@@ -8,10 +8,9 @@ key = process.env.JWT_SECRET;
 //register user
 async function registerUser(req, res) {
   try {
-    
     const { firstName, lastName, email, password, role } = req.body;
     console.log(req.body);
-    
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -25,7 +24,6 @@ async function registerUser(req, res) {
       password: hashedPassword,
       role,
     });
-
 
     const token = jwt.sign(
       { id: newUser._id, role: newUser.role },
@@ -65,7 +63,7 @@ async function loginUser(req, res) {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
-    console.log('Generated Token:', token);
+    console.log("Generated Token:", token);
     res.status(200).json({
       message: "User logged in successfully",
       token,
@@ -100,18 +98,29 @@ async function forgotPassword(req, res) {
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
-      }
+      },
+      // tls: {
+      //   rejectUnauthorized: false
+      // }
     });
+
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
+      from: { name: "E-Commerce Project", address: process.env.EMAIL_USER },
+      to: [email],
       subject: "Password Reset",
       text: `Click the link to reset your password: ${resetUrl}`,
     };
+
+    
+    console.log(mailOptions);
     await transporter.sendMail(mailOptions);
+    
     res.status(200).json({
       message: "Password reset link sent to email",
       resetUrl,
@@ -156,5 +165,5 @@ module.exports = {
   loginUser,
   forgotPassword,
   changePassword,
-  getAllUsers
+  getAllUsers,
 };

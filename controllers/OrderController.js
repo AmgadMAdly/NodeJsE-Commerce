@@ -36,8 +36,8 @@ async function createOrder(req, res) {
       await Product.findByIdAndUpdate(item.productId, {
         $inc: { quantity: -item.quantity },
       });
+      console.log(Product.findOne({ _id: item.productId }).quantity);
     }
-
     await Cart.deleteOne({userId});
 
     res.status(201).json({ message: "Order created successfully", order });
