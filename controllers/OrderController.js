@@ -1,3 +1,4 @@
+const Cart = require("../models/Cart");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 
@@ -27,17 +28,17 @@ async function createOrder(req, res) {
     const order = new Order({ userId, items:cart.items.map(item =>({
       productId: item.productId._id,
       quantity: item.quantity
-    })), shippingAddress, total });
+    })), shippingAddress, total:calculatedTotal });
     await order.save();
 
     // Update product quantities
-    // for (const item of items) {
-    //   await Product.findByIdAndUpdate(item.productId, {
-    //     $inc: { quantity: -item.quantity },
-    //   });
-    // }
+    for (const item of cart.items) {
+      await Product.findByIdAndUpdate(item.productId, {
+        $inc: { quantity: -item.quantity },
+      });
+    }
 
-    await cart.deleteOne({userId});
+    await Cart.deleteOne({userId});
 
     res.status(201).json({ message: "Order created successfully", order });
   } catch (error) {
