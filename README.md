@@ -11,8 +11,12 @@ It handles Products, Categories, Users, Carts, and Orders management.
 - Express.js
 - MongoDB & Mongoose
 - Joi (Validation)
+- bcrypt
 - Multer (File Uploads)
 - UUID (Unique filenames)
+- nodemon
+- nodemailer
+  
 
 ---
 
