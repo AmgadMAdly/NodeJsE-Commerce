@@ -5,7 +5,7 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 DB.connectDB();
-const UserRoutes = require('./Routes/User.Routes.js');
+const UserRoutes = require('./routes/User.Routes.js')
 const ProductRoutes = require('./Routes/Product.routes.js');
 const categoryRoutes = require('./routes/Category.routes.js');
 const CartRoutes = require('./routes/Cart.routes.js');

@@ -56,13 +56,15 @@ async function createProduct(req,res) {
     
 
 }
+
 async function updateProduct(req,res,next) {
     const{id} = req.params;
     
+    
     const Edited = await Product.updateOne({_id:id},{$set:req.body});
-
+    console.log(Edited);
     if(Edited.modifiedCount ===1){
-        res.status(200).json({message: "Product has been Edited"})
+        res.status(200).json({message: "Product has been Edited",Data: Edited})
     }else{
         const Error = new APIError("Invalid deleting product",400);
         next(Error);

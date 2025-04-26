@@ -7,17 +7,17 @@ async function addToCart(req,res,next){
     let cart = await Cart.findOne({userId});
 
     if(cart){
-        const itemIndex = Cart.items.findIndex(item => item.productId.toString() === productId);
+        const itemIndex = Cart.items.findIndex(item => item.productId.toString() === ProductId);
         if(itemIndex > -1){
             cart.items[itemIndex].quantity +=quantity;
         }else{
-            cart.items.push({productId,quantity})
+            cart.items.push({productId:ProductId,quantity})
         }
 
     }else{
         cart =new Cart({
             userId,
-            items: [{productId, quantity}],
+            items: [{ productId: ProductId, quantity }],
         });
     }
 
@@ -30,7 +30,7 @@ async function addToCart(req,res,next){
 async function getCart(req,res,next){
     const userId=req.user.id;
     
-    const cart = await Cart.findOne({userId}).populate("")
+    const cart = await Cart.findOne({userId}).populate("items.productId");
 
     if(cart){ 
         res.status(200).json({ cart });

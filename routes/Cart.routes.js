@@ -4,10 +4,10 @@ const cartController = require("../controllers/CartController");
 const authorizeRoles = require("../middleware/RoleAuth.Middleware");
 
 
-router.post('/AddCart', authorizeRoles(['Customer']) , cartController.addToCart);
-router.get('/getCart', authorizeRoles(['Customer']) , cartController.getCartByUserId);
-router.put('/UpdateCart', authorizeRoles(['Customer']) , cartController.updateCartItem);
-router.delete('/removeCart', authorizeRoles(['Customer']) , cartController.removeCartItem);
-router.delete('/clearCart', authorizeRoles(['Customer']) , cartController.clearCart);
+router.post('/AddCart', authorizeRoles(['customer']) , cartController.addToCart);
+router.get('/getCart', authorizeRoles(['customer']) , cartController.getCart);
+router.put('/UpdateCart', authorizeRoles(['customer']) , cartController.updateCart);
+router.delete('/removeCartItem', authorizeRoles(['customer']) , cartController.removeCartItem);
+router.delete('/clearCart', authorizeRoles(['customer']) , cartController.clearCart);
 
 module.exports = router;
