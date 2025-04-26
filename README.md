@@ -35,27 +35,37 @@ It handles Products, Categories, Users, Carts, and Orders management.
 
 🛤️ API Endpoints
 **Auth**
-POST /api/auth/register — Register a new user
-POST /api/auth/login — Login user
+POST /api/User/register           —> Register a new user
+POST /api/User/login              —> Login user
+POST /api/User/forgot-password    —> Forget Password
+POST /api/User/change-password    —> Change Password
+GET  /api/User/getAllUsers        —> Get All Users
 
 **Products**
-POST /api/products/ — Add new product
-GET /api/products/ — Get all products
-GET /api/products/:id — Get a specific product
-PUT /api/products/:id — Update product
-DELETE /api/products/:id — Delete product
+POST api/Product/createproduct        —> Add new product
+GET /api/product/getproducts          —> Get all products
+GET /api/product/getproduct/:id       —> Get a specific product
+PUT /api/Product/updateproduct/:id    —> Update product
+DELETE /api/Product/deleteproduct/:id —> Delete product
 
 **Categories**
-POST /api/categories/ — Add new category
-GET /api/categories/ — Get all categories
+POST /api/category/createCategory       —> Add new Category
+GET /api/category/getCategorys          —> Get all Categories
+GET /api/category/getCategory/:id       —> Get a specific Category
+PUT /api/category/updateCategory/:id    —> Update Category
+DELETE /api/category/deleteCategory/:id —> Delete Category
 
 **Cart**
-POST /api/cart/ — Add product to cart
-GET /api/cart/:userId — Get user cart
-PUT /api/cart/:userId/update/:productId — Update quantity
-DELETE /api/cart/:userId/remove/:productId — Remove a product from cart
-DELETE /api/cart/:userId/clear — Clear entire cart
+POST /api/cart/AddCart             —> Add To Cart
+GET /api/cart/getCart              —> Get Cart
+DELETE /api/cart/removeCartItem    —> Remove Item from Cart
+PUT api/cart/UpdateCart            —> Update Cart
+DELETE /api/cart/clearCart         —> Delete Cart
 
 **Orders**
-POST /api/orders/ — Create new order
-GET /api/orders/:userId — Get user orders
+POST /api/order/createOrder               —> Create new order
+GET /api/order/getOrders                  —> Get All Orders [FOR ADMIN]
+GET /api/order/getOrdersgetOrderById/     —> Get User Order using order id [FOR ADMIN]
+GET /api/order/getUserOrder               —> Get User Orders [FOR CUSTOMER]
+PUT /api/order/updateOrder/               —> Update Order
+DELETE /api/order/deleteOrder/            —> Delete Order
